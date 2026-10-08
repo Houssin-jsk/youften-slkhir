@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --cream: #faf7ee;
+  --emerald: #064d3b;
+}
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--emerald);
+  font-family: var(--font-body), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.landing-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 44%, #fffdf6 0%, transparent 70%);
+}
+/* Ambient radial fields are painted once; only transform and opacity drift. */
+.landing-page::before, .landing-page::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(100vw, 850px);
+  height: min(100vw, 850px);
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: .7;
+}
+.landing-page::before {
+  top: -28%; left: -25%;
+  background: radial-gradient(circle, #bdd4c33d 0%, #dbe7ce20 35%, transparent 68%);
+  animation: emerald-drift 24s ease-in-out infinite alternate;
+}
+.landing-page::after {
+  bottom: -32%; right: -22%;
+  background: radial-gradient(circle, #e9c36a40 0%, #f3ddad20 36%, transparent 68%);
+  animation: gold-drift 28s ease-in-out infinite alternate;
+}
+@keyframes emerald-drift {
+  from { transform: translate(0, 0) scale(1); opacity: .6; }
+  to { transform: translate(12%, 9%) scale(1.08); opacity: .9; }
+}
+@keyframes gold-drift {
+  from { transform: translate(0, 0) scale(1); opacity: .65; }
+  to { transform: translate(-10%, -8%) scale(1.12); opacity: .9; }
+}
+.coming-soon { max-width: 850px; }
+.entrance { animation: reveal 850ms cubic-bezier(.2, .65, .3, 1) both; }
+.brand-logo { width: 260px; height: auto; flex-shrink: 0; animation-name: logo-reveal; }
+.brand-message { margin: 18px 0 0; font-weight: 400; text-wrap: balance; animation-delay: 160ms; }
+.brand-name {
+  display: block;
+  font-family: var(--font-brand), Georgia, serif;
+  font-size: clamp(38px, 4.5vw, 52px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+.message-status {
+  display: block;
+  margin-top: 13px;
+  font-size: clamp(13px, 1.4vw, 15px);
+  line-height: 1.65;
+  letter-spacing: .055em;
+  color: #35604f;
+}
+.honey-illustration { width: 300px; max-width: 100%; margin-top: 14px; animation-delay: 340ms; }
+.honey-illustration svg { display: block; width: 100%; height: auto; overflow: hidden; }
+@keyframes logo-reveal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* The flight controller updates cached SVG/transform refs without React renders. */
+.bee-experience { display: contents; }
+.flight-layer { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.free-bee { position: absolute; left: 0; top: 0; width: 52px; height: 52px; opacity: 0; will-change: transform; }
+.free-bee[data-ready="true"] { opacity: 1; transition: opacity 700ms ease; }
+.bee-orientation { width: 100%; height: 100%; }
+.bee-orientation svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.wing { transform-box: fill-box; transform-origin: 95% 95%; animation: flutter 85ms ease-in-out infinite alternate; }
+.wing-back { animation-delay: -85ms; }
+@keyframes flutter {
+  from { transform: scaleY(.28) rotate(-16deg); }
+  to { transform: scaleY(1) rotate(12deg); }
+}
+.honey-level { transform: translateY(197.5px); }
+.honey-drop, .honey-ripple { opacity: 0; }
+.honey-ripple { transform-box: fill-box; transform-origin: center; }
+.honey-wave { animation: wave 2.6s ease-in-out infinite alternate; }
+@keyframes wave { from { transform: translateX(-5px); } to { transform: translateX(5px); } }
+@media (max-width: 640px) { .free-bee { width: 44px; height: 44px; } }
+@media (max-width: 640px) {
+  .brand-logo { width: 220px; }
+  .brand-message { max-width: 340px; margin-top: 16px; }
+  .message-status { margin-top: 12px; letter-spacing: .025em; }
+  .honey-illustration { width: 270px; margin-top: 16px; }
+  .landing-page::before { top: 0; left: -45%; }
+  .landing-page::after { bottom: 0; right: -45%; }
+}
+@media (max-height: 600px) {
+  .brand-logo { width: 180px; }
+  .brand-message { margin-top: 6px; }
+  .brand-name { font-size: 36px; }
+  .message-status { margin-top: 8px; }
+  .honey-illustration { width: 220px; margin-top: 2px; }
+}
+@media (max-height: 450px) {
+  .landing-page { padding-block: 16px; }
+  .brand-logo { width: 140px; }
+  .brand-message { margin-top: 4px; }
+  .brand-name { font-size: 32px; }
+  .message-status { margin-top: 5px; }
+  .honey-illustration { width: 170px; }
+}
